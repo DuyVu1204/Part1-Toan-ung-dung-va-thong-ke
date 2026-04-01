@@ -9,6 +9,16 @@ def _identity(n: int) -> Matrix:
     for i in range(n):
         I[i][i] = 1.0
     return I
+    
+def _zeros(m: int, n: int) -> Matrix:
+    return [[0.0 for _ in range(n)] for _ in range(m)]
+    
+def _deepcopy_mat(A: Matrix) -> Matrix:
+    return [row[:] for row in A]
+
+def _swap_rows(M: Matrix, i: int, j: int) -> None:
+    M[i], M[j] = M[j], M[i]
+
 def determinant(A: Matrix, eps: float = 1e-12) -> float:
     """
     det(A) via Gaussian elimination with partial pivoting.
