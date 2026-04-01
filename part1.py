@@ -9,6 +9,43 @@ def _identity(n: int) -> Matrix:
     for i in range(n):
         I[i][i] = 1.0
     return I
+def determinant(A: Matrix, eps: float = 1e-12) -> float:
+    """
+    det(A) via Gaussian elimination with partial pivoting.
+    """
+    n = len(A)
+    if n == 0 or any(len(row) != n for row in A):
+        raise ValueError("A must be square for determinant.")
+
+    # copy
+    M = _deepcopy_mat(A)
+    s = 0
+    det_val = 1.0
+
+    for k in range(n):
+        # pivot row
+        p = max(range(k, n), key=lambda i: abs(M[i][k]))
+        if abs(M[p][k]) <= eps:
+            return 0.0
+        if p != k:
+            _swap_rows(M, p, k)
+            s += 1
+
+        pivot = M[k][k]
+        det_val *= pivot
+
+        # eliminate
+        for i in range(k + 1, n):
+            if abs(M[i][k]) <= eps:
+                continue
+            factor = M[i][k] / pivot
+            for j in range(k, n):
+                M[i][j] -= factor * M[k][j]
+            M[i][k] = 0.0
+
+    if s % 2 == 1:
+        det_val = -det_val
+    return det_val
 
 def inverse(A: Matrix, eps: float = 1e-12) -> Matrix:
     """
