@@ -53,7 +53,7 @@ def inverse(A: Matrix, eps: float = 1e-12) -> Matrix:
     invA = [row[n:] for row in M]
     return invA
 
-    def rref(A: Matrix, eps: float = 1e-12) -> Tuple[Matrix, List[int]]:
+def rref(A: Matrix, eps: float = 1e-12) -> Tuple[Matrix, List[int]]:
     """
     Compute RREF of A (from scratch) with partial pivoting.
     Returns (R, pivot_cols).
